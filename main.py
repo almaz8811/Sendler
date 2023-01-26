@@ -129,6 +129,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         except:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
+            error.setWindowIcon(QIcon('metroui.ico'))
             error.setText('Файл с контактами CSV не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
@@ -144,6 +145,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         except:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
+            error.setWindowIcon(QIcon('metroui.ico'))
             error.setText('Файл шаблона письма не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
@@ -159,6 +161,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         except:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
+            error.setWindowIcon(QIcon('metroui.ico'))
             error.setText('Файл шаблона письма не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
