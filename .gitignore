@@ -1,0 +1,12 @@
+/.venv/
+/.idea/
+/contacts.csv
+/contacts_file.csv
+/end.txt
+/settings.ini
+/setup.py
+/window2.ui
+/syntax.py
+/window_origin.py
+/window.ui
+/output/
