@@ -170,13 +170,13 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             self.btn_edit_template.setEnabled(False)
 
     def btn_open_csv(self):
-        self.lineEdit_file_csv.setText(QFileDialog.getOpenFileName(self)[0])
+        self.lineEdit_file_csv.setText(QFileDialog.getOpenFileName(self, filter='Контакты CSV (*.csv);;Текст (*.txt)')[0])
         self.btn_save_settings.setEnabled(True)
         self.btn_send_mail.setEnabled(False)
         self.btn_stop_mail.setEnabled(False)
 
     def btn_open_template(self):
-        self.lineEdit_template_mail.setText(QFileDialog.getOpenFileName(self)[0])
+        self.lineEdit_template_mail.setText(QFileDialog.getOpenFileName(self, filter='HTML файл (*.htm *.html);;Текст (*.txt)')[0])
         self.btn_save_settings.setEnabled(True)
         self.btn_send_mail.setEnabled(False)
         self.btn_stop_mail.setEnabled(False)
