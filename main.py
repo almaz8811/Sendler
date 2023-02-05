@@ -241,13 +241,14 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             self.treeWidget.topLevelItem(pos).setText(3, 'Ошибка отправки')
             self.bad += 1
             with open("end.txt", "a") as file:
-                file.writelines(name + ';' + email + ';' + 'Ошибка отправки' + '\n')
+                # file.writelines(name + ';' + email + ';' + 'Ошибка отправки' + '\n')
+                file.writelines(f'{name}; {email}; Ошибка отправки\n')
         else:
             self.treeWidget.topLevelItem(pos).setForeground(3, QtCore.Qt.GlobalColor.darkGreen)
             self.treeWidget.topLevelItem(pos).setText(3, 'Отправлено')
             self.good += 1
             with open("end.txt", "a") as file:
-                file.writelines(name + ';' + email + ';' + 'Отправлено' + '\n')
+                file.writelines(f'{name}; {email}; Отправлено\n')
         server.quit()
 
     def start_send(self):
