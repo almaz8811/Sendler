@@ -130,7 +130,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
             error.setWindowIcon(QIcon('metroui.ico'))
-            error.setText('Файл с контактами CSV не найден.\nИсправьте путь к файлу.')
+            error.setText('fФайл с контактами CSV не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
             self.row_count = 0
@@ -146,7 +146,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
             error.setWindowIcon(QIcon('metroui.ico'))
-            error.setText('Файл шаблона письма не найден.\nИсправьте путь к файлу.')
+            error.setText('fФайл шаблона письма не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
             settings.set('Global', 'template_mail', '')
@@ -162,7 +162,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
             error.setWindowIcon(QIcon('metroui.ico'))
-            error.setText('Файл шаблона письма не найден.\nИсправьте путь к файлу.')
+            error.setText('fФайл шаблона письма не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
             settings.set('Global', 'template_mail', '')
@@ -292,9 +292,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         info.setIcon(QMessageBox.Icon.Information)
         info.setWindowTitle('Отчет')
         info.setText('Рассылка завершена')
-        info.setInformativeText('Всего писем: ' + str(self.total) + '\n' +
-                                'Отправлено: ' + str(self.good) + '\n' +
-                                'Ошибки: ' + str(self.bad))
+        info.setInformativeText(f'Всего писем: {str(self.total)}\nОтправлено: {str(self.good)}\nОшибки: {str(self.bad)}')
         info.exec()
 
     def stop_send(self):
