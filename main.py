@@ -2,7 +2,8 @@ import sys
 import shutil
 import smtplib
 import csv
-import window, editor
+import window
+import editor
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from smtplib import SMTP
@@ -26,7 +27,6 @@ class MyHighlighter(QSyntaxHighlighter):
         char_format.setFontWeight(800)
         char_format.setForeground(QColor(86, 156, 214))
         self.regexp_by_format[r'</html>|</body>|</div>|</tbody>|</table>|</tr>|</td>|</br>|</h1>|</h2>|</h3>|</h4>|</span>|</strong>|</p>|</font>|</b>|</pre>|</a>|</img>'] = char_format
-
 
         char_format = QTextCharFormat()
         char_format.setFontWeight(800)
@@ -142,11 +142,11 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             with open(settings.get('Global', 'template_mail'), 'r', encoding='utf-8') as file_temp:
                 self.template = file_temp.read()
                 self.btn_edit_template.setEnabled(True)
-        except:
+        except FileNotFoundError:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
             error.setWindowIcon(QIcon('metroui.ico'))
-            error.setText('fФайл шаблона письма не найден.\nИсправьте путь к файлу.')
+            error.setText(f'Файл шаблона письма не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
             settings.set('Global', 'template_mail', '')
@@ -158,7 +158,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             with open(settings.get('Global', 'template_mail'), 'w', encoding='utf-8') as file_temp:
                 file_temp.write(self.template)
                 self.btn_edit_template.setEnabled(True)
-        except:
+        except FileNotFoundError:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
             error.setWindowIcon(QIcon('metroui.ico'))
