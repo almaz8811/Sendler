@@ -21,7 +21,7 @@ class MyHighlighter(QSyntaxHighlighter):
         char_format = QTextCharFormat()
         char_format.setFontWeight(800)
         char_format.setForeground(QColor(86, 156, 214))
-        self.regexp_by_format[r'<html|<body|<div|<tbody|<table|<tr|<td|<br|<h1|<h2|<h3|<h4|<span|<strong|<p|<font|<b|<pre|<a|<img|>'] = char_format
+        self.regexp_by_format[r'<html|<body|<div|<tbody|<table|<tr|<td|<br|<h1|<h2|<h3|<h4|<span|<strong|<p|<font|<b|<pre|<a|<img|<meta|>'] = char_format
 
         char_format = QTextCharFormat()
         char_format.setFontWeight(800)
@@ -31,7 +31,7 @@ class MyHighlighter(QSyntaxHighlighter):
         char_format = QTextCharFormat()
         char_format.setFontWeight(800)
         char_format.setForeground(QColor(206, 145, 120))
-        self.regexp_by_format[r'class=|width=|cellspacing=|cellpadding=|bgcolor=|align=|colspan=|style=|color=|valign=|height=|src=|href=|target='] = char_format
+        self.regexp_by_format[r'class=|width=|cellspacing=|cellpadding=|bgcolor=|align=|colspan=|style=|color=|valign=|height=|src=|href=|target=|http-equiv=|content=|charset='] = char_format
 
     def highlightBlock(self, text):
         for regexp, char_format in self.regexp_by_format.items():
