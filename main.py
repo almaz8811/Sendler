@@ -2,7 +2,7 @@ import sys
 import shutil
 import smtplib
 import csv
-import window
+import window3
 import editor
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -52,7 +52,7 @@ class EditorWindow(QMainWindow, editor.Ui_MainWindow):
         self.textEdit.setFontPointSize(11)
 
 
-class MainWindow(QMainWindow, window.Ui_MainWindow):
+class MainWindow(QMainWindow, window3.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -66,6 +66,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.treeWidget.resizeColumnToContents(1)
         self.treeWidget.resizeColumnToContents(2)
         self.treeWidget.resizeColumnToContents(3)
+        self.treeWidget.resizeColumnToContents(4)
         self.lineEdit_login.textEdited.connect(self.edit_value)
         self.lineEdit_password.textEdited.connect(self.edit_value)
         self.lineEdit_smtp_server.textEdited.connect(self.edit_value)
@@ -82,6 +83,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.btn_send_mail.clicked.connect(self.start_send)
         self.btn_stop_mail.clicked.connect(self.stop_send)
         self.sending = True
+        self.csv_type = 2
 
     def read_settings(self):
         self.read_csv()
@@ -123,9 +125,14 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
     def read_csv(self):
         self.treeWidget.clear()
         try:
+            with open(settings.get('Global', 'file_csv'), encoding='cp1251', newline='') as file_test:
+                test_reader = csv.reader(file_test)
+                for row in test_reader:
+                    self.csv_type = len(row)
+                    break
             with open(settings.get('Global', 'file_csv'), encoding='cp1251', newline='') as file:
                 reader = csv.reader(file)
-                self.add_items(reader)
+                self.add_items(reader, self.csv_type)
         except:
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
@@ -204,18 +211,39 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.write_template()
         self.close_editor()
 
-    def add_items(self, reader):
+    def add_items(self, reader, csv_type):
         self.treeWidget.clear()
-        for name, email in reader:
-            item = QTreeWidgetItem()
-            item.setText(0, str(self.treeWidget.topLevelItemCount() + 1))
-            item.setText(1, str(name))
-            item.setText(2, str(email))
-            self.treeWidget.addTopLevelItem(item)
-        self.treeWidget.resizeColumnToContents(0)
-        self.treeWidget.resizeColumnToContents(1)
-        self.treeWidget.resizeColumnToContents(2)
-        self.treeWidget.resizeColumnToContents(3)
+        if csv_type == 2:
+            for name, email in reader:
+                name = name.replace('  ', ' ').split(' ')
+                if len(name) != 4:
+                    company = name[0]
+                    director = f'{name[1]} {name[2]}'
+                else:
+                    company = name[0]
+                    director = f'{name[1]} {name[2]} {name[3]}'
+                item = QTreeWidgetItem()
+                item.setText(0, str(self.treeWidget.topLevelItemCount() + 1))
+                item.setText(1, str(company))
+                item.setText(2, str(director))
+                item.setText(3, str(email))
+                self.treeWidget.addTopLevelItem(item)
+            self.treeWidget.resizeColumnToContents(0)
+            self.treeWidget.resizeColumnToContents(1)
+            self.treeWidget.resizeColumnToContents(2)
+            self.treeWidget.resizeColumnToContents(3)
+        elif csv_type == 3:
+            for company, email, director in reader:
+                item = QTreeWidgetItem()
+                item.setText(0, str(self.treeWidget.topLevelItemCount() + 1))
+                item.setText(1, str(company))
+                item.setText(2, str(director))
+                item.setText(3, str(email))
+                self.treeWidget.addTopLevelItem(item)
+            self.treeWidget.resizeColumnToContents(0)
+            self.treeWidget.resizeColumnToContents(1)
+            self.treeWidget.resizeColumnToContents(2)
+            self.treeWidget.resizeColumnToContents(3)
         self.progressBar.setMaximum(self.treeWidget.topLevelItemCount())
         self.total = self.treeWidget.topLevelItemCount()
 
