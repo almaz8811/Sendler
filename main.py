@@ -137,7 +137,7 @@ class MainWindow(QMainWindow, window3.Ui_MainWindow):
             error = QMessageBox()
             error.setWindowTitle('Ошибка')
             error.setWindowIcon(QIcon('metroui.ico'))
-            error.setText('fФайл с контактами CSV не найден.\nИсправьте путь к файлу.')
+            error.setText(f'Файл с контактами CSV не найден.\nИсправьте путь к файлу.')
             error.setIcon(QMessageBox.Icon.Warning)
             error.exec()
             self.row_count = 0
@@ -232,6 +232,7 @@ class MainWindow(QMainWindow, window3.Ui_MainWindow):
             self.treeWidget.resizeColumnToContents(1)
             self.treeWidget.resizeColumnToContents(2)
             self.treeWidget.resizeColumnToContents(3)
+            self.treeWidget.resizeColumnToContents(4)
         elif csv_type == 3:
             for company, email, director in reader:
                 item = QTreeWidgetItem()
@@ -244,10 +245,11 @@ class MainWindow(QMainWindow, window3.Ui_MainWindow):
             self.treeWidget.resizeColumnToContents(1)
             self.treeWidget.resizeColumnToContents(2)
             self.treeWidget.resizeColumnToContents(3)
+            self.treeWidget.resizeColumnToContents(4)
         self.progressBar.setMaximum(self.treeWidget.topLevelItemCount())
         self.total = self.treeWidget.topLevelItemCount()
 
-    def send_mail(self, pos, name, email):
+    def send_mail(self, pos, director, email):
         smtp_server = smtplib.SMTP(settings.get('Server', 'smtp_server'), settings.get('Server', 'smtp_port'))
         smtp_server.starttls()
         # Создаем объект SMTP
@@ -260,23 +262,23 @@ class MainWindow(QMainWindow, window3.Ui_MainWindow):
         msg = MIMEMultipart()
         msg['From'] = settings.get('Server', 'login')
         msg['To'] = email_getter
-        msg['Subject'] = settings.get('Global', 'subject_mail') + ' ' + str(name)
+        msg['Subject'] = settings.get('Global', 'subject_mail') + ' ' + str(director)
         msg.attach(MIMEText(self.template, 'html'))
         try:
             server.send_message(msg)  # Отправляем сообщение
         except:
-            self.treeWidget.topLevelItem(pos).setForeground(3, QtCore.Qt.GlobalColor.red)
-            self.treeWidget.topLevelItem(pos).setText(3, 'Ошибка отправки')
+            self.treeWidget.topLevelItem(pos).setForeground(4, QtCore.Qt.GlobalColor.red)
+            self.treeWidget.topLevelItem(pos).setText(4, 'Ошибка отправки')
             self.bad += 1
             with open("end.txt", "a") as file:
                 # file.writelines(name + ';' + email + ';' + 'Ошибка отправки' + '\n')
-                file.writelines(f'{name}; {email}; Ошибка отправки\n')
+                file.writelines(f'{director}; {email}; Ошибка отправки\n')
         else:
-            self.treeWidget.topLevelItem(pos).setForeground(3, QtCore.Qt.GlobalColor.darkGreen)
-            self.treeWidget.topLevelItem(pos).setText(3, 'Отправлено')
+            self.treeWidget.topLevelItem(pos).setForeground(4, QtCore.Qt.GlobalColor.darkGreen)
+            self.treeWidget.topLevelItem(pos).setText(4, 'Отправлено')
             self.good += 1
             with open("end.txt", "a") as file:
-                file.writelines(f'{name}; {email}; Отправлено\n')
+                file.writelines(f'{director}; {email}; Отправлено\n')
         server.quit()
 
     def start_send(self):
@@ -301,12 +303,12 @@ class MainWindow(QMainWindow, window3.Ui_MainWindow):
         self.good = 0
         self.bad = 0
         for i in range(self.treeWidget.topLevelItemCount()):
-            self.treeWidget.topLevelItem(i).setText(3, '')
+            self.treeWidget.topLevelItem(i).setText(4, '')
         for i in range(self.treeWidget.topLevelItemCount()):
-            name = self.treeWidget.topLevelItem(i).text(1)
-            email = self.treeWidget.topLevelItem(i).text(2)
+            director = self.treeWidget.topLevelItem(i).text(2)
+            email = self.treeWidget.topLevelItem(i).text(3)
             if self.sending == True:
-                self.send_mail(i, name, email)
+                self.send_mail(i, director, email)
                 self.progressBar.setValue(i + 1)
             else:
                 self.stop_send()
