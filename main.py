@@ -2,7 +2,7 @@ import sys
 import shutil
 import smtplib
 import csv
-import window3
+import window
 import editor
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -52,7 +52,7 @@ class EditorWindow(QMainWindow, editor.Ui_MainWindow):
         self.textEdit.setFontPointSize(11)
 
 
-class MainWindow(QMainWindow, window3.Ui_MainWindow):
+class MainWindow(QMainWindow, window.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -266,13 +266,13 @@ class MainWindow(QMainWindow, window3.Ui_MainWindow):
         msg.attach(MIMEText(self.template, 'html'))
         try:
             server.send_message(msg)  # Отправляем сообщение
-        except:
+        except Exception as e:
             self.treeWidget.topLevelItem(pos).setForeground(4, QtCore.Qt.GlobalColor.red)
             self.treeWidget.topLevelItem(pos).setText(4, 'Ошибка отправки')
             self.bad += 1
             with open("end.txt", "a") as file:
                 # file.writelines(name + ';' + email + ';' + 'Ошибка отправки' + '\n')
-                file.writelines(f'{director}; {email}; Ошибка отправки\n')
+                file.writelines(f'{director}; {email}; Ошибка отправки\n{e}\n')
         else:
             self.treeWidget.topLevelItem(pos).setForeground(4, QtCore.Qt.GlobalColor.darkGreen)
             self.treeWidget.topLevelItem(pos).setText(4, 'Отправлено')
