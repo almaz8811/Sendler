@@ -34,6 +34,11 @@ class MyHighlighter(QSyntaxHighlighter):
         char_format.setForeground(QColor(206, 145, 120))
         self.regexp_by_format[r'class=|width=|cellspacing=|cellpadding=|bgcolor=|align=|colspan=|style=|color=|valign=|height=|src=|href=|target=|http-equiv=|content=|charset='] = char_format
 
+        # char_format = QTextCharFormat()
+        # char_format.setFontWeight(800)
+        # char_format.setForeground(QColor(143, 55, 255))
+        # self.regexp_by_format[r'class=|width=|cellspacing=|cellpadding=|bgcolor=|align=|colspan=|style=|color=|valign=|height=|src=|href=|target=|http-equiv=|content=|charset='] = char_format
+
     def highlightBlock(self, text):
         for regexp, char_format in self.regexp_by_format.items():
             expression = QRegularExpression(regexp)
@@ -334,6 +339,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
 
     def show_info(self):
         info = QMessageBox()
+        info.setWindowIcon(QIcon('metroui.ico'))
         info.setIcon(QMessageBox.Icon.Information)
         info.setWindowTitle('Отчет')
         info.setText('Рассылка завершена')
