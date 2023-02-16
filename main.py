@@ -12,6 +12,7 @@ from PyQt6 import QtCore
 from PyQt6.QtCore import QTimer, QEventLoop, QRegularExpression
 from config_core import get_config, update_config, path_settings
 from PyQt6.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QIcon
+from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
 
 
 class MyHighlighter(QSyntaxHighlighter):
@@ -249,7 +250,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.progressBar.setMaximum(self.treeWidget.topLevelItemCount())
         self.total = self.treeWidget.topLevelItemCount()
 
-    def send_mail(self, pos, director, email):
+    def send_mail(self, pos, company, full_name, name, surname, patronymic, email):
         smtp_server = smtplib.SMTP(settings.get('Server', 'smtp_server'), settings.get('Server', 'smtp_port'))
         smtp_server.starttls()
         # Создаем объект SMTP
@@ -262,8 +263,14 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         msg = MIMEMultipart()
         msg['From'] = settings.get('Server', 'login')
         msg['To'] = email_getter
-        msg['Subject'] = settings.get('Global', 'subject_mail') + ' ' + str(director)
-        msg.attach(MIMEText(self.template, 'html'))
+        temp_subject = Template(settings.get('Global', 'subject_mail'))
+        render_subject = temp_subject.render(name=name, surname=surname, patronymic=patronymic, email=email, company=company, full_name=full_name)
+        msg['Subject'] = render_subject
+        # msg['Subject'] = settings.get('Global', 'subject_mail') + ' ' + str(full_name)
+        temp_msg = Template(self.template)
+        render_page = temp_msg.render(name=name, surname=surname, patronymic=patronymic, email=email, company=company, full_name=full_name)
+        # msg.attach(MIMEText(render_page, 'html'))
+        msg.attach(MIMEText(render_page, 'html'))
         try:
             server.send_message(msg)  # Отправляем сообщение
         except Exception as e:
@@ -272,13 +279,13 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             self.bad += 1
             with open("end.txt", "a") as file:
                 # file.writelines(name + ';' + email + ';' + 'Ошибка отправки' + '\n')
-                file.writelines(f'{director}; {email}; Ошибка отправки\n{e}\n')
+                file.writelines(f'{full_name}; {email}; Ошибка отправки\n{e}\n')
         else:
             self.treeWidget.topLevelItem(pos).setForeground(4, QtCore.Qt.GlobalColor.darkGreen)
             self.treeWidget.topLevelItem(pos).setText(4, 'Отправлено')
             self.good += 1
             with open("end.txt", "a") as file:
-                file.writelines(f'{director}; {email}; Отправлено\n')
+                file.writelines(f'{full_name}; {email}; Отправлено\n')
         server.quit()
 
     def start_send(self):
@@ -305,10 +312,18 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         for i in range(self.treeWidget.topLevelItemCount()):
             self.treeWidget.topLevelItem(i).setText(4, '')
         for i in range(self.treeWidget.topLevelItemCount()):
-            director = self.treeWidget.topLevelItem(i).text(2)
+            company = self.treeWidget.topLevelItem(i).text(1)
+            parse_full_name = self.treeWidget.topLevelItem(i).text(2).split(' ')
+            surname = parse_full_name[0]
+            name = parse_full_name[1]
+            if len(parse_full_name) == 3:
+                patronymic = parse_full_name[2]
+            else:
+                patronymic = ''
+            full_name = self.treeWidget.topLevelItem(i).text(2)
             email = self.treeWidget.topLevelItem(i).text(3)
             if self.sending == True:
-                self.send_mail(i, director, email)
+                self.send_mail(i, company, full_name, name, surname, patronymic, email)
                 self.progressBar.setValue(i + 1)
             else:
                 self.stop_send()
