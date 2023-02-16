@@ -24,10 +24,10 @@ def create_config(path):
     config.set('Server', 'smtp_server', 'mail.nic.ru')
     config.set('Server', 'smtp_port', '587')
     config.add_section('Global')
-    config.set('Global', 'interval', '90')
-    config.set('Global', 'file_csv', '')
-    config.set('Global', 'subject_mail', 'Предложение для компании')
-    config.set('Global', 'template_mail', '')
+    config.set('Global', 'interval', '10')
+    config.set('Global', 'file_csv', 'basis.csv')
+    config.set('Global', 'subject_mail', 'Предложение для компании {{company}} {{full_name}}')
+    config.set('Global', 'template_mail', 'template.html')
     with open(path, 'w', encoding='UTF-8') as config_file:
         config.write(config_file)
 
