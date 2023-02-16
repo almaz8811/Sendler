@@ -13,7 +13,7 @@ from PyQt6 import QtCore
 from PyQt6.QtCore import QTimer, QEventLoop, QRegularExpression
 from config_core import get_config, update_config, path_settings
 from PyQt6.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QIcon
-from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
+from jinja2 import Template
 
 
 class MyHighlighter(QSyntaxHighlighter):
@@ -68,6 +68,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.editor_window.btn_cancel_template.clicked.connect(self.close_editor)
         self.editor_window.btn_save_template.clicked.connect(self.save_editor)
         self.editor_window.btn_view_browser.clicked.connect(self.view_browser)
+        self.editor_window.btn_view_jinja.clicked.connect(self.view_browser_jinja)
         self.read_settings()
         self.setFixedSize(self.size())
         self.treeWidget.resizeColumnToContents(0)
@@ -271,11 +272,12 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         msg['From'] = settings.get('Server', 'login')
         msg['To'] = email_getter
         temp_subject = Template(settings.get('Global', 'subject_mail'))
-        render_subject = temp_subject.render(name=name, surname=surname, patronymic=patronymic, email=email, company=company, full_name=full_name)
+        render_subject = temp_subject.render(name=name, surname=surname, patronymic=patronymic,
+                                             email=email, company=company, full_name=full_name)
         msg['Subject'] = render_subject
         temp_msg = Template(self.template)
-        render_page = temp_msg.render(name=name, surname=surname, patronymic=patronymic, email=email, company=company, full_name=full_name)
-        # msg.attach(MIMEText(render_page, 'html'))
+        render_page = temp_msg.render(name=name, surname=surname, patronymic=patronymic,
+                                      email=email, company=company, full_name=full_name)
         msg.attach(MIMEText(render_page, 'html'))
         try:
             server.send_message(msg)  # Отправляем сообщение
@@ -381,6 +383,15 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
             file_temp_html.write(temp_html)
         os.system(f"start {os.path.realpath('temp_html.html')}")
 
+    def view_browser_jinja(self):
+        temp_html = self.editor_window.textEdit.toPlainText()
+        temp_jinja = Template(temp_html)
+        render_jinja = temp_jinja.render(name='Обисмал', surname='Кучеров',
+                                         patronymic='Святославович', email='obis@yandex.ru',
+                                         company='ИП', full_name='Кучеров Обисмал Святославович')
+        with open('temp_html.html', 'w', encoding='utf-8') as file_temp_html:
+            file_temp_html.write(render_jinja)
+        os.system(f"start {os.path.realpath('temp_html.html')}")
 
 def run():
     app = QApplication(sys.argv)
