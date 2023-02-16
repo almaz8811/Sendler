@@ -23,7 +23,7 @@ class MyHighlighter(QSyntaxHighlighter):
         char_format = QTextCharFormat()
         char_format.setFontWeight(800)
         char_format.setForeground(QColor(86, 156, 214))
-        self.regexp_by_format[r'<html|<head|<title|<xml|<style|<u|<body|<div|<tbody|<table|<tr|<td|<br|<h1|<h2|<h3|<h4|<span|<strong|<p|<font|<b|<pre|<a|<img|<meta|>|/>|<!|<!--'] = char_format
+        self.regexp_by_format[r'<html|<head|<title|<xml|<xml>|<style|<u|<body|<div|<tbody|<table|<tr|<td|<br|<h1|<h2|<h3|<h4|<span|<strong|<p|<font|<b|<pre|<a|<img|<meta|>|/>|<!|<!--'] = char_format
 
         char_format = QTextCharFormat()
         char_format.setFontWeight(800)
