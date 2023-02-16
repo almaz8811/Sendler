@@ -34,9 +34,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.btn_save_template = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.btn_save_template.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
         self.btn_save_template.setObjectName("btn_save_template")
         self.horizontalLayout.addWidget(self.btn_save_template)
         self.btn_cancel_template = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.btn_cancel_template.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
         self.btn_cancel_template.setObjectName("btn_cancel_template")
         self.horizontalLayout.addWidget(self.btn_cancel_template)
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -44,7 +46,18 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName("groupBox")
         self.textEdit_2 = QtWidgets.QTextEdit(self.groupBox)
         self.textEdit_2.setGeometry(QtCore.QRect(10, 20, 811, 121))
+        self.textEdit_2.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
         self.textEdit_2.setObjectName("textEdit_2")
+        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(840, 670, 241, 31))
+        self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.btn_view_browser = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.btn_view_browser.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
+        self.btn_view_browser.setObjectName("btn_view_browser")
+        self.horizontalLayout_2.addWidget(self.btn_view_browser)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -61,12 +74,14 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">Из строки CSV файла контактов:    ИП </span><span style=\" font-size:8pt; color:#e29700;\">(или ООО Дента-Люкс)</span><span style=\" font-size:8pt;\"> Хмельницкий Иван Викторович,proffkt@yandex.ru</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">{{company}}</span><span style=\" font-size:8pt;\">    -    Название компании    -    </span><span style=\" font-size:8pt; font-style:italic;\">ИП </span><span style=\" font-size:8pt; font-style:italic; color:#e29700;\">(или ООО Дента-Люкс)</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">{{name}}</span><span style=\" font-size:8pt;\">    -    Имя получателя    -    </span><span style=\" font-size:8pt; font-style:italic;\">Иван</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">{{patronymic}}</span><span style=\" font-size:8pt;\">    -    Отчество получателя    -    </span><span style=\" font-size:8pt; font-style:italic;\">Викторович</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">{{surname}}</span><span style=\" font-size:8pt;\">    -    Фамилия получателя    -    </span><span style=\" font-size:8pt; font-style:italic;\">Хмельницкий</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">{{email}}</span><span style=\" font-size:8pt;\">    -    E-mail    -    </span><span style=\" font-size:8pt; font-style:italic;\">proffkt@yandex.ru</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt; font-weight:600;\">{{full_name}}</span><span style=\" font-size:8pt;\">    -    Полное ФИО    -    </span><span style=\" font-size:8pt; font-style:italic;\">Хмельницкий Иван Викторович</span></p></body></html>"))
+        self.btn_view_browser.setText(_translate("MainWindow", "Просмотр в браузере"))
 
 
 if __name__ == "__main__":

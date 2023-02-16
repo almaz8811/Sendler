@@ -1,4 +1,5 @@
 import sys
+import os
 import shutil
 import smtplib
 import csv
@@ -66,6 +67,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.setWindowIcon(QIcon('metroui.ico'))
         self.editor_window.btn_cancel_template.clicked.connect(self.close_editor)
         self.editor_window.btn_save_template.clicked.connect(self.save_editor)
+        self.editor_window.btn_view_browser.clicked.connect(self.view_browser)
         self.read_settings()
         self.setFixedSize(self.size())
         self.treeWidget.resizeColumnToContents(0)
@@ -271,7 +273,6 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         temp_subject = Template(settings.get('Global', 'subject_mail'))
         render_subject = temp_subject.render(name=name, surname=surname, patronymic=patronymic, email=email, company=company, full_name=full_name)
         msg['Subject'] = render_subject
-        # msg['Subject'] = settings.get('Global', 'subject_mail') + ' ' + str(full_name)
         temp_msg = Template(self.template)
         render_page = temp_msg.render(name=name, surname=surname, patronymic=patronymic, email=email, company=company, full_name=full_name)
         # msg.attach(MIMEText(render_page, 'html'))
@@ -373,6 +374,12 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.loop = QEventLoop()
         QTimer().singleShot(msec, lambda: self.loop.quit())
         self.loop.exec()
+
+    def view_browser(self):
+        temp_html = self.editor_window.textEdit.toPlainText()
+        with open('temp_html.html', 'w', encoding='utf-8') as file_temp_html:
+            file_temp_html.write(temp_html)
+        os.system(f"start {os.path.realpath('temp_html.html')}")
 
 
 def run():
