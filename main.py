@@ -14,6 +14,7 @@ from PyQt6.QtCore import QTimer, QEventLoop, QRegularExpression
 from config_core import get_config, update_config, path_settings
 from PyQt6.QtGui import QSyntaxHighlighter, QTextCharFormat, QColor, QIcon
 from jinja2 import Template
+import ctypes
 
 
 class MyHighlighter(QSyntaxHighlighter):
@@ -387,7 +388,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         temp_html = self.editor_window.textEdit.toPlainText()
         with open('temp_html.html', 'w', encoding='utf-8') as file_temp_html:
             file_temp_html.write(temp_html)
-        os.system(f"start {os.path.realpath('temp_html.html')}")
+        os.system(f"start temp_html.html")
 
     def view_browser_jinja(self):
         temp_html = self.editor_window.textEdit.toPlainText()
@@ -397,11 +398,15 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
                                          company='ИП', full_name='Кучеров Обисмал Святославович')
         with open('temp_html.html', 'w', encoding='utf-8') as file_temp_html:
             file_temp_html.write(render_jinja)
-        os.system(f"start {os.path.realpath('temp_html.html')}")
+        os.system(f"start temp_html.html")
 
 def run():
+    myappid = 'AlMaz.Sendler.v1.1.0'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon('metroui.ico'))
     main_window = MainWindow()
+    main_window.setWindowIcon(QIcon('metroui.ico'))
     main_window.show()
     sys.exit(app.exec())
 
