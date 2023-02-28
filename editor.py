@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Редактор шаблона"))
         self.btn_save_template.setText(_translate("MainWindow", "Сохранить"))
         self.btn_cancel_template.setText(_translate("MainWindow", "Отмена"))
-        self.groupBox.setTitle(_translate("MainWindow", "Справка"))
+        self.groupBox.setTitle(_translate("MainWindow", "Справка по автозамене"))
         self.textEdit_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
