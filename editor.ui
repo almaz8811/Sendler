@@ -93,7 +93,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>GroupBox</string>
+     <string>Справка</string>
     </property>
     <widget class="QTextEdit" name="textEdit_2">
      <property name="geometry">
