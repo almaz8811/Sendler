@@ -47,7 +47,7 @@ class MyHighlighter(QSyntaxHighlighter):
         char_format.setForeground(QColor(143, 55, 255))
         self.regexp_by_format[r'{{name}}|{{surname}}|{{patronymic}}|{{email}}|{{company}}|{{full_name}}'] = char_format
 
-    def highlightBlock(self, text):
+    def highlightBlock(self, text: str):
         for regexp, char_format in self.regexp_by_format.items():
             expression = QRegularExpression(regexp)
             it = expression.globalMatch(text)
@@ -227,7 +227,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.write_template()
         self.close_editor()
 
-    def add_items(self, reader, csv_type):
+    def add_items(self, reader, csv_type: int):
         self.treeWidget.clear()
         if csv_type == 2:
             for name, email in reader:
@@ -265,7 +265,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.progressBar.setMaximum(self.treeWidget.topLevelItemCount())
         self.total = self.treeWidget.topLevelItemCount()
 
-    def send_mail(self, pos, company, full_name, name, surname, patronymic, email):
+    def send_mail(self, pos, company: str, full_name: str, name: str, surname: str, patronymic: str, email: str):
         smtp_server = smtplib.SMTP(settings.get('Server', 'smtp_server'), settings.get('Server', 'smtp_port'))
         smtp_server.starttls()
         # Создаем объект SMTP
@@ -379,7 +379,7 @@ class MainWindow(QMainWindow, window.Ui_MainWindow):
         self.btn_stop_mail.setEnabled(False)
         self.progressBar.setValue(0)
 
-    def delay(self, msec):
+    def delay(self, msec: int):
         self.loop = QEventLoop()
         QTimer().singleShot(msec, lambda: self.loop.quit())
         self.loop.exec()

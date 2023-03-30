@@ -42,10 +42,10 @@ class Ui_MainWindow(object):
         self.btn_cancel_template.setObjectName("btn_cancel_template")
         self.horizontalLayout.addWidget(self.btn_cancel_template)
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(0, 640, 831, 151))
+        self.groupBox.setGeometry(QtCore.QRect(10, 640, 821, 151))
         self.groupBox.setObjectName("groupBox")
         self.textEdit_2 = QtWidgets.QTextEdit(self.groupBox)
-        self.textEdit_2.setGeometry(QtCore.QRect(10, 20, 811, 121))
+        self.textEdit_2.setGeometry(QtCore.QRect(10, 20, 801, 121))
         self.textEdit_2.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
         self.textEdit_2.setObjectName("textEdit_2")
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Редактор шаблона"))
         self.btn_save_template.setText(_translate("MainWindow", "Сохранить"))
         self.btn_cancel_template.setText(_translate("MainWindow", "Отмена"))
-        self.groupBox.setTitle(_translate("MainWindow", "Справка по автозамене"))
+        self.groupBox.setTitle(_translate("MainWindow", "Справка"))
         self.textEdit_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
