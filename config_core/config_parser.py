@@ -8,15 +8,23 @@ except ImportError:
 path_settings = 'settings.ini'
 
 
-def get_config(path):
-    if not os.path.exists(path):
-        create_config(path)
+def get_config(path: str) -> configparser.ConfigParser:
+    '''
+    :param path: Путь к файлу конфигурации
+    :return: Возращает объект с конфигурацией
+    '''
     config = configparser.ConfigParser()
+    if not os.path.exists(path):    # Если нет файла с конфигурацией, то создать новый
+        config = create_config(path)
     config.read(path, encoding='UTF-8')
     return config
 
 
-def create_config(path):
+def create_config(path: str) -> configparser.ConfigParser:
+    '''
+    :param path: Путь к файлу конфигурации
+    :return: Возращает новый объект с конфигурацией
+    '''
     config = configparser.ConfigParser()
     config.add_section('Server')
     config.set('Server', 'login', '')
@@ -30,8 +38,9 @@ def create_config(path):
     config.set('Global', 'template_mail', 'template.html')
     with open(path, 'w', encoding='UTF-8') as config_file:
         config.write(config_file)
+    return config
 
 
-def update_config(config):
+def update_config(config: configparser.ConfigParser):
     with open(path_settings, 'w', encoding='UTF-8') as config_file:
         config.write(config_file)
