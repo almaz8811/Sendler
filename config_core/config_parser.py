@@ -9,10 +9,10 @@ path_settings = 'settings.ini'
 
 
 def get_config(path: str) -> configparser.ConfigParser:
-    '''
+    """
     :param path: Путь к файлу конфигурации
     :return: Возращает объект с конфигурацией
-    '''
+    """
     config = configparser.ConfigParser()
     if not os.path.exists(path):    # Если нет файла с конфигурацией, то создать новый
         config = create_config(path)
@@ -21,10 +21,10 @@ def get_config(path: str) -> configparser.ConfigParser:
 
 
 def create_config(path: str) -> configparser.ConfigParser:
-    '''
+    """
     :param path: Путь к файлу конфигурации
     :return: Возращает новый объект с конфигурацией
-    '''
+    """
     config = configparser.ConfigParser()
     config.add_section('Server')
     config.set('Server', 'login', '')
